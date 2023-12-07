@@ -8,6 +8,8 @@ import Home from './pages/Home';
 import Error from './pages/Error';
 import CustomerList from './pages/Customer';
 import TrainingList from './pages/Training';
+import EditCustomerPage from './pages/EditCustomerPage';
+import EditTrainingPage from './pages/EditTrainingPage';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,14 @@ const router = createBrowserRouter([
       {
         path: "trainings",
         element: <TrainingList />,
+      },
+      {
+        path: "edit_customer/:customerId",
+        element: <EditCustomerPage />,
+      },
+      {
+        path: "edit_training/:trainingId",
+        element: <EditTrainingPage />,
       },
     ]
   }

@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-material.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import AddCustomerForm from './AddCustomerForm';
+import { useNavigate } from 'react-router-dom';
 
 const CustomerList = () => {
     const [customers, setCustomers] = useState([]);
+    const [isAddModalOpen, setAddModalOpen] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCustomers = async () => {
@@ -27,6 +32,48 @@ const CustomerList = () => {
         fetchCustomers();
     }, []);
 
+    const handleAddCustomer = () => {
+        setAddModalOpen(true);
+    };
+
+    const handleAddModalClose = () => {
+        setAddModalOpen(false);
+    };
+
+    const handleAddModalSubmit = (newCustomer) => {
+        setCustomers((prevCustomers) => [...prevCustomers, newCustomer]);
+        handleAddModalClose();
+    };
+
+    const handleDeleteCustomer = async (customerId) => {
+        try {
+            console.log('Deleting customer with ID:', customerId);
+            const response = await fetch(`http://traineeapp.azurewebsites.net/api/customers/${customerId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete customer');
+            }
+            const responseBody = await response.text();
+
+            if (responseBody.trim() !== '') {
+                const deletedCustomer = JSON.parse(responseBody);
+                console.log('Deleted customer:', deletedCustomer);
+            } else {
+                console.log('Customer deleted successfully.');
+            }
+
+            setCustomers((prevCustomers) => prevCustomers.filter((customer) => customer.id !== customerId));
+        } catch (error) {
+            console.error('Error deleting customer:', error);
+        }
+    };
+
+    const handleEditCustomer = (customerId) => {
+        navigate(`/edit_customer/${customerId}`);
+    };
+
     const defaultColDef = {
         sortable: true,
         filter: true,
@@ -40,7 +87,25 @@ const CustomerList = () => {
         { headerName: 'Street Address', field: 'streetaddress', sortable: true, filter: true },
         { headerName: 'City', field: 'city', sortable: true, filter: true },
         { headerName: 'Postcode', field: 'postcode', sortable: true, filter: true },
+        {
+            headerName: 'Actions',
+            cellRenderer: (params) => (
+                <>
+                    <button className="edit-button" onClick={() => handleEditCustomer(getCustomerIdFromLink(params.data.links))}>EDIT</button>
+                    <button className="delete-button" onClick={() => handleDeleteCustomer(getCustomerIdFromLink(params.data.links))}>DELETE</button>
+                </>
+            ),
+        },
     ];
+
+    const getCustomerIdFromLink = (links) => {
+        const selfLink = links.find(link => link.rel === 'self');
+        if (selfLink) {
+            const segments = selfLink.href.split('/');
+            return segments[segments.length - 1];
+        }
+        return null;
+    };
 
     const gridOptions = {
         defaultColDef,
@@ -52,8 +117,15 @@ const CustomerList = () => {
     return (
         <div>
             <h1 style={{ textAlign: 'center' }}>CUSTOMER LIST</h1>
+            <button style={{ display: 'block', marginBottom: 5, fontWeight: 'bold' }} onClick={handleAddCustomer}>ADD CUSTOMER</button>
 
-            <div className="ag-theme-material" style={{ height: '500px', width: '100%' }}>
+            {isAddModalOpen && (
+                <div className="modal">
+                    <AddCustomerForm onAddCustomer={handleAddModalSubmit} onClose={handleAddModalClose} />
+                </div>
+            )}
+
+            <div className="ag-theme-alpine" style={{ height: '500px', width: '100%' }}>
                 <AgGridReact
                     gridOptions={gridOptions}
                     columnDefs={columnDefs}

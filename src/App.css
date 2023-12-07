@@ -38,29 +38,92 @@
   }
 }
 
-/* CustomerList.css */
-
-/* Style for the customer list container */
-.customer-list-container {
+.list-container {
   margin: 20px;
+  text-align: center;
 }
 
-/* Style for the table */
+.centered-table {
+  margin: auto;
+  max-width: 80%;
+}
+
 table {
-  width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
-/* Style for table headers */
 th {
   background-color: #f2f2f2;
 }
 
-/* Style for table cells */
 td,
 th {
   padding: 12px;
   border: 1px solid #dddddd;
   text-align: left;
+}
+
+/* AddCustomerForm.css */
+.modal-content {
+  /* Your existing styles for modal content */
+
+  /* Additional styling for better layout */
+  width: 300px;
+  margin: 0 auto;
+  /* Center the form horizontally */
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #4c9baf;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4577a0;
+}
+
+.delete-button {
+  color: rgb(255, 71, 71);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  color: white;
+  background-color: rgb(255, 71, 71);
+}
+
+.edit-button {
+  color: rgb(71, 166, 255);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  color: white;
+  background-color: rgb(71, 166, 255);
 }
