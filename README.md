@@ -31,12 +31,12 @@ Originally built as a task/project exercise, this app demonstrates practical use
 
 ```
 Final_Task-master/
-├── public/ # Static files (HTML, icons)
+├── public/                                           # Static files (HTML, icons)
 ├── src/
-│ ├── App.js # Main app layout and router
-│ ├── index.js # React root renderer
-│ ├── App.css, index.css # Global styling
-│ └── pages/ # Page-level components
+│ ├── App.js                                          # Main app layout and router
+│ ├── index.js                                        # React root renderer
+│ ├── App.css, index.css                              # Global styling
+│ └── pages/                                          # Page-level components
 │ ├── Home.js
 │ ├── Customer.js
 │ ├── Training.js
@@ -45,8 +45,8 @@ Final_Task-master/
 │ ├── AddTrainingForm.js
 │ ├── EditTrainingPage.js
 │ └── Error.js
-├── package.json # Project dependencies
-└── README.md # Project documentation
+├── package.json                                     # Project dependencies
+└── README.md                                        # Project documentation
 ```
 ---
 
